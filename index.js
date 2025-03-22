@@ -40,12 +40,6 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 
-	if(interaction.commandName === 'ping') {
-		await interaction.deferReply();
-		await wait(4_000);
-		await command.execute(interaction);
-	}
-
 	try {
 		await command.execute(interaction);
 	} catch (error) {
