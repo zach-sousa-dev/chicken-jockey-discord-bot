@@ -43,6 +43,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	if(interaction.commandName === 'ping') {
 		await interaction.deferReply();
 		await wait(4_000);
+		await command.execute(interaction);
 	}
 
 	try {
