@@ -101,7 +101,7 @@ client.once(Events.ClientReady, readyClient => {
 
 		}
 		
-	}, 10000);
+	}, 30000);
 });
 
 // Log in to Discord with your client's token
