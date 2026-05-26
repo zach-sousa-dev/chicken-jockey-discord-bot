@@ -15,7 +15,8 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply();
 		const response = await ((await fetch("https://api.mcsrvstat.us/3/" + process.env.SERVER_SOCKET)).json());
-		console.log(response);
+		console.log("/ping recieved: ");
+		console.log(response.players);
 		await interaction.editReply(response.online ? "The server is up and running! There are currently \`" + response.players.online + "\` players online right now. <:chickenjockey:1352730573529157642>" : "The server is not running. <:chickenjockey:1352730573529157642>");
 	},
 

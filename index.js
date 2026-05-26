@@ -62,9 +62,13 @@ client.once(Events.ClientReady, readyClient => {
 	setInterval(async () => {
 		try {
 			const response = await (await fetch("https://api.mcsrvstat.us/3/" + process.env.SERVER_SOCKET));
-			if(response) {
-				let json = response.json();
-				let status = "No one is online. 💔"
+			
+			let status = "No one is online. 💔"
+			
+			if(response.ok) {
+
+				let json = await response.json();
+				console.log(json.players);
 				if((json.players.online)) {
 					if(json.players.online > 1) {
 						status = "There are " + response.players.online + " fellas online! 📈";
@@ -72,6 +76,7 @@ client.once(Events.ClientReady, readyClient => {
 						status = "There is a fella online! 🧍";
 					}
 				}
+
 			}
 
 			client.user.setPresence({
@@ -81,18 +86,22 @@ client.once(Events.ClientReady, readyClient => {
 				}],
 				status: 'online'
 			});
+
 		} catch (e) {
-			console.log(e);
+
+			let error = e;
+			console.log(error);
 			client.user.setPresence({
 				activities: [{
-					name: e,
+					name: error.message,
 					type: ActivityType.Playing
 				}],
 				status: 'online'
 			});
+
 		}
 		
-	}, 30000);
+	}, 120000);
 });
 
 // Log in to Discord with your client's token
