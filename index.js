@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Require the necessary discord.js classes
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -40,7 +40,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 
-	try {
+ try {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
@@ -57,6 +57,42 @@ client.on(Events.InteractionCreate, async interaction => {
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+
+	// live status
+	setInterval(async () => {
+		try {
+			const response = await (await fetch("https://api.mcsrvstat.us/3/" + process.env.SERVER_SOCKET));
+			if(response) {
+				let json = response.json();
+				let status = "No one is online. 💔"
+				if((json.players.online)) {
+					if(json.players.online > 1) {
+						status = "There are " + response.players.online + " fellas online! 📈";
+					} else {
+						status = "There is a fella online! 🧍";
+					}
+				}
+			}
+
+			client.user.setPresence({
+				activities: [{
+					name: status,
+					type: ActivityType.Playing
+				}],
+				status: 'online'
+			});
+		} catch (e) {
+			console.log(e);
+			client.user.setPresence({
+				activities: [{
+					name: e,
+					type: ActivityType.Playing
+				}],
+				status: 'online'
+			});
+		}
+		
+	}, 30000);
 });
 
 // Log in to Discord with your client's token
