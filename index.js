@@ -71,8 +71,10 @@ client.once(Events.ClientReady, readyClient => {
 				console.log(json.players);
 				if((json.players.online ? json.players.online : 0) > 1) {
 					status = "There are " + json.players.online + " fellas online! 📈";
-				} else {
+				} else if(json.players.online == 1) {
 					status = "There is a fella online! 🧍";
+				} else {
+					status = "No one is online. 💔"
 				}
 
 			} else {
