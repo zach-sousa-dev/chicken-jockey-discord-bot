@@ -75,6 +75,8 @@ client.once(Events.ClientReady, readyClient => {
 					status = "There is a fella online! 🧍";
 				}
 
+			} else {
+				console.log(response.status);
 			}
 
 			client.user.setPresence({
@@ -99,7 +101,7 @@ client.once(Events.ClientReady, readyClient => {
 
 		}
 		
-	}, 120000);
+	}, 10000);
 });
 
 // Log in to Discord with your client's token
