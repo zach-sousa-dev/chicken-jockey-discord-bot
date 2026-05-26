@@ -70,7 +70,7 @@ client.once(Events.ClientReady, readyClient => {
 				let json = await response.json();
 				console.log(json.players);
 				if((json.players.online ? json.players.online : 0) > 1) {
-					status = "There are " + response.players.online + " fellas online! 📈";
+					status = "There are " + json.players.online + " fellas online! 📈";
 				} else {
 					status = "There is a fella online! 🧍";
 				}
